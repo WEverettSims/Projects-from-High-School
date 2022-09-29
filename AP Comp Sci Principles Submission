@@ -1,0 +1,73 @@
+import random
+deck = ["2C","3C","4C","5C","6C","7C","8C","9C","10C","JC","QC","KC",'2D','3D','4D','5D','6D','7D','8D','9D','10D','JD','QD','KD','2H','3H','4H','5H','6H','7H','8H','9H','10H','JH','QH','KH','2S','3S','4S','5S','6S','7S','8S','9S','10S','JS','QS','KS','AS','AC','AD','AH']
+resetd=["2C","3C","4C","5C","6C","7C","8C","9C","10C","JC","QC","KC",'2D','3D','4D','5D','6D','7D','8D','9D','10D','JD','QD','KD','2H','3H','4H','5H','6H','7H','8H','9H','10H','JH','QH','KH','2S','3S','4S','5S','6S','7S','8S','9S','10S','JS','QS','KS','AS','AC','AD','AH']
+checkNum=["2","3","4","5","6","7","8","9","10"]
+checkFace=["J","Q","K"]
+you=[]
+print("Welcome to BlackJack!\n\n This game is classic: You get two cards immediately and then you get to choose whether or not you want to stop or keep getting dealt cards to get your total to add up to as close to 21 as you can. \nNumbered cards are worth their and face cards are worth 10 unless its an Ace.")
+print("Aces act as either a 1 or an 11!")
+print("C stands for clubs;D stands for diamonds;H for hearts; and S for spades.\n\n\n")
+game=True
+bongos=True
+def scoring():
+  score=0
+  for x in range(len(you)):
+    for y in range(len(checkNum)):
+      if you[x][:1]==checkNum[y][:1]:
+        score+=y+2
+    for z in range(len(checkFace)):
+      if you[x][:1]==checkFace[z]:
+        score+=10
+  for x in range(len(you)):
+    if you[x][:1]=="A":
+      if score>10:
+        score+=1
+      else:
+        score+=11
+  return score
+
+def deal(choice):
+  global game
+  global bongos
+  if choice=="yes":
+    num = random.randint(0,len(deck)-1)
+    you.append(deck[num])
+    deck.pop(num)
+    print(you)
+    scoring()
+    if scoring()>21:
+      print("You lost with", scoring())
+      game=False
+      you.clear()
+      deck.clear()
+      for x in range(len(resetd)):
+        deck.append(resetd[x])
+      print("Play again?")
+      if input().strip().lower()=="no":
+        bongos=False
+  else:
+    scoring()
+    print("You got ",scoring(),"\nThat is", 21-scoring()," away from the target")
+    z=21-scoring()
+    if z==0:
+      print("Congrats! You won! \n")
+    elif z<=3:
+      print("So close!")
+    if input("Play again?").strip().lower()=="no":
+      bongos=False
+    game=False
+    you.clear()
+    deck.clear()
+    for x in range(len(resetd)):
+      deck.append(resetd[x])
+        
+while bongos==True:
+  game=True
+  for x in range(2):
+    num=random.randint(0,len(deck)-1)
+    you.append(deck[num])
+    deck.pop(num)
+  print(you)
+  while game==True:
+    choice=input("Would you like another card?").strip().lower()
+    deal(choice)
