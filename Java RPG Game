@@ -1,0 +1,316 @@
+import java.util.Random;
+import java.util.Scanner;
+class Main {
+//These are the stats for the character: health,strength,level,accuracy
+private String roomType="NA";
+private String [] directions = new String[10];
+private int [] possibles = new int[10];
+private int [] character = new int[]{100,5,0,15};
+private int [] goblin;
+private int [] archer;
+private String focus="no";
+private int experience=0;
+private int experienceNeed=0;
+private int count=0;
+private boolean bat=true;
+
+public void generateMaze(){
+    Random rand = new Random();
+    for(int i=0;i<directions.length;i++){
+      int dir = rand.nextInt(3);
+      if(dir==0)
+      directions[i]="left";
+      if(dir==1)
+      directions[i]="left";
+      if(dir==2)
+      directions[i]="right";
+      int pos=rand.nextInt(3);
+      int block=0;
+      if(pos==0&&block<4){
+      possibles[i]=1;
+      block++;
+      }
+      else if(pos==1||block>3)
+      possibles[i]=2;
+      else if(pos==2)
+      possibles[i]=3;
+    }
+  }
+
+public void playerMove(){
+    roomType="NA";
+    Scanner keyboard = new Scanner(System.in);
+    Random rand = new Random();
+    while(count<directions.length && roomType=="NA" ){
+    if(possibles[count]==1){
+      System.out.println("There is only a hallway in front of you. Continue?");
+      String falsechoice = keyboard.next();
+      count++;
+    }
+    else if(possibles[count]==2){
+      System.out.println("There is a fork in the path. Would you like to go to the left or the right?\n\n1.Left\n2.Right\n");
+    int choice=keyboard.nextInt();
+      if(choice==1&&directions[count].equals("left")){
+        count++;
+      }
+      else if(choice==2&&directions[count].equals("right")){
+        count++;
+   
+      }
+      else{
+      int chances = rand.nextInt(3);
+      if(chances==0){
+        roomType="trap";
+    
+      }
+      if(chances==1){
+        roomType="free";
+     
+      }
+      if(chances==2){
+        roomType="trapfree";
+     
+      }
+    }
+    }
+    else if(possibles[count]==3){
+      System.out.println("There are three possible paths ahead. \n\n1.Left\n2.Right\n3.Straight");
+      int choice=keyboard.nextInt();
+      if(choice==1&&directions[count].equals("left")){
+        count++;
+      }
+      else if(choice==2&&directions[count].equals("right")){
+        count++;
+      }
+      else if(choice==3&&directions[count].equals("straight")){
+        count++;
+      }
+      else{
+      int chances = rand.nextInt(3);
+      if(chances==0){
+        roomType="trap";
+      }
+      if(chances==1){
+        roomType="free";
+      }
+      if(chances==2){
+        roomType="trapfree";
+      }
+    }
+    }
+    }
+    if(count==directions.length&&bat==true){
+      int hob=100;
+      System.out.println("You finally made your way to the last room. You peer into the massive chamber and eye a stone door on the far end. In the middle of the room lay a skeleton still gripping tightly the keycard that you need. Out of despiration you rush in towards the body but as you do the door behind you slams closed and you are left in complete darkness until lamps along the walls of the chamber. Out of the darkness spawned a goblin that you had only seen once before, a hobgoblin.");
+      for(int i=0;hob>40;i++){
+      if(i%2==0){
+      System.out.println("It quickly swings its club at you.\n\n1.Dodge");
+      int dodge = keyboard.nextInt();
+      System.out.println("You dive out of the way.");
+      }
+      System.out.println("There is 1 hobgoblin. \n\n 1.Fight");
+      int fight = keyboard.nextInt();
+      if(fight==1){
+        System.out.println("You try and slash the creature's flesh but it doesn't make a scratch.");
+        hob-=10;
+      }
+      else System.out.println("You were too indecisive.");
+      }
+      boolean finalblow=true;
+      while(finalblow==true){
+      System.out.println("You sense something coming from the adventurers sword. A rumbling coming from its core. Suddenly, a new option for you appears. \n1.Fight\n2.Lightning Strike");
+      int strike = keyboard.nextInt();
+      if(strike==1){
+        System.out.println("You attack with your buzzing blade. It does nothing");
+      }
+      else if(strike==2){
+        System.out.println("Your sword beings to heat up and the blade starts burning bright white. You swing the blade at the hobgoblin and a streak of white light lands on its chest near its heart. It collapses.");
+        hob=0;
+        finalblow=false;
+      }
+      }
+      System.out.println("You wonder in marvel at the weapon in your hand as you walk over to the undisturbed skeleton laying in the middle of the floor. You pick the card from its grasp and travel across the way to the dusty door. This will lead to the elevator to lead you back up to the surface, not with gold but a new life as an adventurer.\n\nAs you ascend the mountain, you feel a strange buzzing coming from the sword and for a split second a piercing screach enters your mind. \n\n    o̧̠̫͋̅f̻̪̬͎̭͐͢;ͫ̃̑̍҉̦̦͔͕a̩͎̗͔̺͔ͧ͞ͅg͑̔͏͎͇̣͔̤̼̱̩j̪̗̹̪͆͗ͥ͞;̷͍͎̜ͪͥê̡̮̹͉̣͕̥͕͌͐n̷̦̜͕̥̟̠̱̱ͭͤ;̥̗͙͓̟̲̑ͫ̄͝b͉̙͎̲̦̦̅̀ͅl̴̰͔̦̲̅͋s̨͚͎̮̓͊̚fͬ͒҉̯̦̤͔̠̼̥̟;̨̞̯̜̣̝̘͌ͤ̃̏d̷͎̭ͫͅb͔̪̖͚̟͖͎̫ͭ̒ͩ͠g̈́̋҉̝̼̮̲͇̹̦k̩̥͋͐̀͟s̩̤̼͔̹̠ͬ͠l̺͍̰̲͙̬̞̠̾͊ͫ́\n\n\n This lasted only for a moment before halting once and for all."); 
+      bat=false;
+    }
+    }
+public void fight(){
+    Scanner keyboard = new Scanner(System.in);
+    if(roomType.equals("free")){
+    System.out.println("In the room you find a single chest with one potion of health inside. Would you like to use it?");
+    String use = keyboard.next();
+    use.toLowerCase();
+    if(use.equals("yes"))
+      character[0]=Math.min(100+(10*character[2]),character[0]+=20);
+    else if(use.equals("no"))
+      System.out.println("You put the bottle back in the chest and return back to the hallway.");
+    }
+    else if(roomType.equals("trap")||roomType.equals("trapfree")){
+      Random rand = new Random();
+      boolean required = true;
+      int x=2;
+      int y=1;
+      int z=0;
+      if(character[2]>0){
+        x+=character[2];
+        y+=character[2];
+      }
+      int[]goblin = new int[x];
+      int[]archer=new int[y];
+    String enemyType="NA";
+    String enemyTypeTwo="NA";
+    int gobAmount=goblin.length;
+    int archAmount=archer.length;
+    for(int ghi=0;ghi<gobAmount;ghi++){
+      goblin[ghi]=20;
+    }
+    for(int ahi=0;ahi<archAmount;ahi++){
+      archer[ahi]=5;
+    }
+    int total=goblin.length+archer.length;
+    int count=0;
+    if(goblin[0]>0){
+      if(count==0){
+        enemyType="Goblin(s)";
+        count++;}
+    }
+    if(archer[0]>0){
+      if(count==0){
+        enemyType="Archer(s)";
+        count++;}
+      else if(count==1){
+        enemyTypeTwo="Archer(s)";
+        count++;
+        }
+        }
+    while(total>0){
+    for(int g=0;gobAmount>g;g++){
+    int hitChance=rand.nextInt(20)+1;
+    if(hitChance<15){
+    System.out.println("You were hit by a goblin's claw. You lost 10 health.");
+    character[0]-=7.5;
+    }
+    }
+    for(int a=0;archAmount>a;a++){
+    int hitChance=rand.nextInt(20)+1;
+    if(hitChance>10){
+    System.out.println("You were hit by an arrow. You lost 5 health");
+    character[0]-=5;
+    }
+    }
+    focus="no";
+    if(focus.equals("no")){
+    String gobtrue="";
+    String archtrue="";
+    if(goblin.length>0)
+    gobtrue="goblin(s)";
+    if(archer.length>0)
+    archtrue="goblin archer(s)";
+    System.out.println("There are "+gobAmount+" "+gobtrue+" "+archAmount+" "+archtrue+"Who would you like to attack?");
+    if(enemyType!="NA")
+    System.out.println(enemyType);
+    if(enemyTypeTwo!="NA")
+    System.out.println(enemyTypeTwo);
+    String choice = keyboard.next();
+    choice.toLowerCase();
+    if(choice.equals("goblin"))
+    focus = "goblin";
+    if(choice.equals("archer"))
+    focus="archer";
+    }
+    if(focus.equals("goblin")){
+    int hitChance=rand.nextInt(20)+1;
+    int gh=0;
+    if(hitChance<character[3]){
+      goblin[gh]-=character[1];
+    System.out.println("You hit a goblin");
+        if(goblin[gh]<=0){
+        System.out.println("You killed a goblin!");
+        gobAmount--;
+        gh++;
+        total--;
+        }
+    }
+    else System.out.println("You missed.");
+    focus="no";
+    }
+
+    if(focus.equals("archer")){
+        int hitChance=rand.nextInt(20)+1;
+        int ah=0;
+    if(hitChance<character[3]){
+      archer[ah]-=character[1];
+        if(archer[ah]<=0){
+        System.out.println("You killed a goblin archer!");
+        archAmount--;
+        ah++;
+        total--;
+        }
+    }
+    else System.out.println("You missed.");
+    focus="no";
+    }
+    }
+    experience=(50*goblin.length)+(25*archer.length);
+    while(experience>experienceNeed){
+    experience-=experienceNeed;
+    character[2]++;
+    System.out.println("You leveled up!");
+    experienceNeed=75*character[2]+100;
+    character[0]+=10;
+    character[1]+=5;
+    character[3]+=1;
+    }
+    if(roomType.equals("trap")){
+    System.out.println("There is nothing left in the room, you return back to the hallway");
+    }
+    else if(roomType.equals("trapfree")){
+    System.out.println("After defeating the enemies, a single chest appears in the center of the room. Inside is a health potion, would you like to use it?");
+    String use = keyboard.next();
+    use.toLowerCase();
+    if(use.equals("yes"))
+      character[0]=Math.min(100+(10*character[2]),character[0]+=20);
+    else if(use.equals("no"))
+      System.out.println("You put the bottle back in the chest and return back to the hallway.");
+    }
+    if(character[0]==0){
+      System.out.println("You died");
+      System.exit(0);
+    }
+    }
+    }
+public void prologue(){
+    Scanner keyboard = new Scanner(System.in);
+    System.out.println("You arrive at the mine. You think to yourself: \n\n   'Today I need to find something to sell or I'll starve!'\n\nYou are given the choice of one of three things you can bring into the mine with you along with a pickaxe:\n1.A flimsy shiv made from a tree branch\n2.A torch\n3.A keycard for the mine shaft's elevator.");
+    int firstItem = keyboard.nextInt();
+    System.out.println("You continue on into the mineshaft and begin to look for a good spot. Eventually the tunnel is split off into three different paths.\nWhich one do you choose?\n1.The leftmost path\n2.The center path\n3.The rightmost path");
+    int path1=keyboard.nextInt();
+    if(path1==1)
+    System.out.println("You chose the leftmost path. The supports look older than the others and there seems to be dust trickling down from the ceiling.");
+    if(path1==2)
+    System.out.println("You chose the center path. This path seems pretty safe despite the loud creaking of the wooden beams holding the stone above you.");
+    if(path1==3)
+    System.out.println("You chose the rightmost path. This path seems the most dangerous of the three. The ground is full of holes and ditches making it seem impossible to go down this path without twisting an ankle or two.");
+    System.out.println("You travel down this path wondering to yourself:\n    'I wonder what I would have found if I went down a different path?'\nYou keep walking until you reach a small pocket inside the moutain. Something glinting catches your eye from the side.\n\n                 GOLD\n\nThat would keep you fed for the next month if you were frugal! You walk over and start to unload the pickaxe you had brought with you.\nYou start to swing and with each strike a loud unpleasant melody fills the walls of the small room that you occupy.\nYou think about leaving with the small pieces of gold that you had chipped off and leaving the bigger vein until you return:\n1.Risk someone else finding the vein and stealing it.\n2.Keep mining until you have it all.");
+    int choice1 = keyboard.nextInt();
+    if(choice1==1)
+    System.out.println("You chose to leave with the gold you have and to come back another time. You really hope that no one else comes along and steals it. As you pack your bag full gold, you hear a noise.");
+    if(choice1==2)
+    System.out.println("You chose to keep mining until the entire vein is depleted. You won't let anyone have the chance to steal what is rightfully yours! As you continue mining a faint sound starts to gradually get louder and louder until it covers the sound of your pickaxe hitting the gold.");
+    System.out.println("It started to sound like small explosions coming from the wall. You freeze in anticipation. A small crack starts to form and expands slowly until a small green hand shoots out through the cave's wall. The small beast slowly  crawls through the hole it made revealing itself to be a goblin.\nThe goblin charges at you and your bag full of golden shards trying to get at them. Do you:\n1.Fight the goblin\n2.Save your own skin, let the goblin have what it wants!");
+    int choice2=keyboard.nextInt();
+    if(choice2==1)
+    System.out.println("You decide to fight the goblin! You shift your feet into a fighting stance and get ready.\n\n      The goblin lunges at you!\n\nYou try and block yourself with your arms but it's too late. The goblin's claw slashes your arm. You howl with pain as the goblin looks to make another attack, but before it can, a giant goblin - a hobgoblin - crashes through the wall and sees the gold within the grasp of the smaller goblin. It moves to attack the goblin but before it can the floor collapses and all three of you are cast into the cavern below.");
+    if(choice2==2)
+    System.out.println("You throw your bag at the goblin, letting it have the gold. It starts to rifle through the pockets in search of more gold but before it can, a giant goblin - a hobgoblin - crashes through the wall and sees the gold within the grasp of the smaller goblin. It moves to attack the goblin but before it can the floor collapses and all three of you ar cast into the cavern below.\n\n     In the cavern you awake to a small glow eminating off something in the rubble. All of your items have also broken. The only way out now is through the elevator shaft to which you do not have a key. Your only hope is to search along this level for a card off of a dead miner that died down here. You reach your hand into the glowing rubble and reveal a dull glowing sword. As you touch it, you hear in your head: Base Stats: health:100,strength:20, level:0, accuracy:10\nYou realize what this is, a sword imbued with level magic, commonly used by adventurers. The more you use it the stronger you will become. Now armed with a soon to be powerful weapon, you start exploring for an elevator keycard to make your way out.");
+  }
+public static void main(String[] args){
+    Main player=new Main();
+    boolean play = true;
+    player.prologue();
+    player.generateMaze();
+  while(play==true){
+      player.playerMove();
+      player.fight();
+    }
+  }
+}
